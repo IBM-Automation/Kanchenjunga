@@ -13,59 +13,17 @@
     command: wget http://158.175.78.46/SinglePageApp.war -O {{ warRemotePath }}/{{ warName }}
 
   - name: Create destDir
-    file: path="{{ destDir }}" mode=0755 state=directory 
-    
-  # - name: get current date
-  #   set_fact: bkpdate="{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
+    file: path="{{ destDir }}" mode=0755 state=directory    
 
-  # - name: create directory with a date in name
-  #   file: path="/home/tomcat/{{ bkpdate }}"
-  #         state=directory
-  #         mode=0755
-
-  # - name: backup war
-  #   shell: "cp /usr/local/tomcat/webapps/{{ warName }} /home/tomcat/{{ bkpdate }}/"
     
   - name: Unzip WAR file
     unarchive: src={{ warRemotePath }}/{{ warName }} dest={{ destDir }} remote_src=yes
     register: zipfile 
 
-  #  unarchive: src={{ warRemotePath }}/{{ warName }} dest=/usr/share/tomcat/webapps/ copy=no mode=0755 owner=tomcat group=tomcat
-  #  notify:
-  #      - restart tomcat 
-   
-  #- name: Delete remote war file
-  #  file: path={{ warRemotePath }}/{{ warName }} state=absent
-    
   - name: Restart tomcat
     service: name=tomcat state=restarted
 
 
   - name: wait for tomcat to start
-    wait_for: port=8080 timeout=60
-    
-#   - name: Updating in Slack
-#     uri:
-#       url: http://158.175.78.37:5050/aap21/slackMsg
-#       method: POST
-#       body_format: json
-#       body:
-#         slackMsg: "Successfully deployed the Application on newly provisioned VM on GCP {{ inventory_hostname }}"
-        
-#   - name: Sending an email using Ansible
-#     mail:
-#       host: "smtp.sendgrid.net"
-#       port: "465"
-#       username: "apikey"
-#       password: "SG.FZ5kK8pGSfuf_OE_84GZFQ.koaslCn8yOhZic3Nf5iNX2KW9_t3Z2EScuZK3NzfVNE"
-#       from: "Ansible Bot<eca.ansible@ibm.com>"
-#       #to: "shathiyaraman.moorthy@ibm.com"
-#       to: "charan.vm@in.ibm.com"
-#       cc: "prakash.vs@ibm.com,sayan.ghosh.hazra@ibm.com"
-#       subject: "Application Deployment on GCP"      
-#       body: "Greetings, <br><br> Application is successfully deployed on host-{{ inventory_hostname }} <br>  Url: <br> http://{{ inventory_hostname }}:8080 <br> <br><br> <br><br>Regards,<br>Ansible Bot"
-#       subtype: html
-# #     delegate_to: localhost
- 
-    
+    wait_for: port=8080 timeout=60 
   
