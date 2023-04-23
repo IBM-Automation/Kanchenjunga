@@ -1,0 +1,32 @@
+---
+- name: API Integration
+  hosts: all
+  gather_facts: no
+  tasks: 
+#     - name: Updating in Slack
+#       uri:
+#         url: http://158.175.78.37:5050/aap21/slackMsg
+#         method: POST
+#         body_format: json
+#         body:
+#           slackMsg: Completed and Closed
+
+    - name: Download SnowAttachment
+      ansible.builtin.get_url:
+        url: "http://158.175.78.46:5050/getSNWattachmnt?number={{ incident_num }}"
+        dest: /tmp/GCPTest.csv
+        mode: '0755'
+      register: getfile
+      delegate_to: localhost
+      
+    - debug: var=getfile
+    
+#     - name: Read users from CSV file and return a dictionary
+#       read_csv:
+#         path: /tmp/"{{ incident_num }}".csv
+#       register: details
+    
+#     - debug: 
+#          msg: "{{ item.MachineType }}"
+#       with_items: "{{ details.list }}"
+    
