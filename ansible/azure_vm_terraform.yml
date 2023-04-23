@@ -38,7 +38,7 @@
       tower_host:
         name: "{{ item }}"
         description: "Azure Inventory"
-        inventory: "azure inventory"
+        inventory: "Azure Inventory"
         state: present
         tower_host: "{{ towerURL }}"
         tower_password: "{{ password }}"
