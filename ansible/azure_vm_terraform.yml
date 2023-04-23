@@ -1,0 +1,73 @@
+---
+- name: Azure VM
+  hosts: localhost
+  vars:
+    public_ip: []
+  tasks:
+    - pip:
+        name:
+          - ansible-tower-cli
+        extra_args: --user
+        executable: pip3
+      delegate_to: localhost
+      
+    - name: Define the backend configuration at init
+      community.general.terraform:
+        project_path: '../terraform/modules/provision_vm'
+        state: present
+        force_init: true
+      register: terraform_output
+      
+    - debug: var=terraform_output
+    
+    - debug: var=terraform_output.outputs.public_ip_addresses.value
+    
+    - set_fact:
+        public_ip: "{{ public_ip + [item]  }}"
+      with_items: "{{ terraform_output.outputs.public_ip_addresses.value }}"
+      
+    - debug: var=public_ip
+    
+    - set_stats:
+        data:
+          tomcat: "{{ terraform_output.outputs.public_ip_addresses.value[0] }}"
+          postgres: "{{ terraform_output.outputs.public_ip_addresses.value[1] }}"
+    
+#     - name: terraform destory
+#       shell: |
+#         terraform show;terraform destroy -auto-approve
+#       args:
+#         chdir: './provision_vm'
+
+#     - name: Add group postgress
+#       group:
+#         name: "postgress"
+#         hosts: 
+#           - "20.169.133.129"
+#         inventory: "Azure Inventory"
+#         state: present
+#         tower_host: https://aap-controller-ansible-automation-platform.eca-5d3b077647f2e82a12132e1e840f7b71-0000.eu-de.containers.appdomain.cloud/
+#         tower_password: password
+#         tower_username: admin
+        
+#     - name: Add group tomcat
+#       group:
+#         name: "tomcat"
+#         hosts: 
+#           - "20.169.133.237"
+#         inventory: "Azure Inventory"
+#         state: present
+#         controller_host: https://aap-controller-ansible-automation-platform.eca-5d3b077647f2e82a12132e1e840f7b71-0000.eu-de.containers.appdomain.cloud/
+#         controller_password: password
+#         controller_username: admin    
+     
+    - name: Add tower host
+      tower_host:
+        name: "{{ item }}"
+        description: "Azure Inventory"
+        inventory: "azure inventory"
+        state: present
+        tower_host: https://aap-controller-ansible-automation-platform.eca-5d3b077647f2e82a12132e1e840f7b71-0000.eu-de.containers.appdomain.cloud/
+        tower_password: password
+        tower_username: admin
+      with_items: "{{ terraform_output.outputs.public_ip_addresses.value }}"
