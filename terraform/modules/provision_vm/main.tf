@@ -7,17 +7,15 @@ terraform {
   }
 }
 
+#Add the subscription details here / later create the parameters
 provider "azurerm" {
     features {}
-    subscription_id = "8427562f-8418-42ba-bd2d-f267f0f59639"
-    client_id       = "43f51cb4-790e-4001-b469-9a0f946db138"
-    client_secret   = "SaS8Q~v5pImVPEi70kDAISSHrVL0JOAD2M~ticNi"
-    tenant_id       = "aa60563d-ee7f-4224-bfb1-b4b18151ed8a"
+    subscription_id = ""
+    client_id       = ""
+    client_secret   = ""
+    tenant_id       = ""
 }
 
-# variable "vm_csv_file_path" {
-#   description = "vm.csv"
-# }
 
 locals {
   vm_details    = csvdecode(file("vm.csv"))
@@ -125,19 +123,3 @@ resource "null_resource" "shell" {
     azurerm_linux_virtual_machine.vm
   ]
 }
-
-# data "azurerm_public_ip" "ecapublicip" {
-#   count = length(var.vm_names)
-#   name  = "example-${var.vm_names[count.index]}-public-ip"
-#   resource_group_name = azurerm_resource_group.example.name
-# }
-
-# locals {
-#   vm_public_ips = [for ip in data.azurerm_public_ip.example.*.ip_address : ip]
-# }
-
-# resource "local_file" "vm_public_ips" {
-#   content  = yamlencode({public_ips = local.vm_public_ips})
-#   filename = "vm_public_ips.yml"
-# }
-
