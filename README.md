@@ -1,2 +1,3 @@
-# eca-gcp-ansible-automata
-This role will to provision vm in GCP CLoud and Configure Services like postgress, tomcat server
+#  kanchenjunga
+The Repository contains the code to provision vm on Azure CLoud using terraform.
+Install/Configure/Deploy applications like postgress, tomcat server using Ansible.
