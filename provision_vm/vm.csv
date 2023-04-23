@@ -1,3 +1,0 @@
-﻿S.No,ip_config_name,private_ip,proivate_ip_version,nic_name,location,vm_name,vm_size,vm_admin_username,vm_admin_password,os_disk_name,os_disk_storage_type,os_publisher,os_offer,os_sku,publicIP
-1,internal,10.0.1.6,IPv4,vm1_nic,eastus,ecavm1,Standard_D2s_v3,ecadmin,Welcome1234,ecaosdisk1,Standard_LRS,Debian,debian-10,10,ecavm1ip
-2,internal,10.0.1.7,IPv4,vm2_nic,eastus,ecavm2,Standard_D2s_v3,ecadmin,Welcome1234,ecaosdisk2,Standard_LRS,Debian,debian-10,10,ecavm2ip
