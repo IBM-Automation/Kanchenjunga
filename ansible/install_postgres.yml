@@ -22,32 +22,6 @@
         name: ansible-role-postgres
         apply:
           delegate_to: "{{ ip }}"
-#   roles:
-#     - ansible-role-postgres
-    
-#   post_tasks:
-#     - set_fact:
-#         host_id: "{{ id }}"
-        
-#     - name: Exchange the token for a Bearer Token
-#       uri:
-#         url: https://aap-controller-ansible-automation-platform.eca-5d3b077647f2e82a12132e1e840f7b71-0000.eu-de.containers.appdomain.cloud/api/v2/hosts/{{host_id}}/
-#         body_format: json
-#         # user: null
-#         # password: Basic YWRtaW46cGFzc3dvcmQ=
-#         method: DELETE
-#         # body: 
-#           # enabled: true
-#           # name: "34.172.165.139"
-#         headers:
-#           content_type: application/json
-#           Authorization: "Basic YWRtaW46cGFzc3dvcmQ="
-#         status_code: 204
-#       register: scalingo_response_bearer_token
-#       delegate_to: localhost
-
-#     - debug: var=scalingo_response_bearer_token
-#       delegate_to: localhost
 
   tags:
     - postgres
