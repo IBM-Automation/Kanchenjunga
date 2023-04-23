@@ -10,7 +10,7 @@
 
   tasks:
   - name: Download WAR to server
-    command: wget http://158.175.78.46/SinglePageApp.war -O {{ warRemotePath }}/{{ warName }}
+    command: wget {{war_file_url}} -O {{ warRemotePath }}/{{ warName }}
 
   - name: Create destDir
     file: path="{{ destDir }}" mode=0755 state=directory    
